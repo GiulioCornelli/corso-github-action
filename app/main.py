@@ -50,6 +50,7 @@ def health():
 
 
 if __name__ == "__main__":
+    print("Starting Flask app...")
     host = os.getenv("SERVER_HOST", "127.0.0.1")
     port = int(os.getenv("SERVER_PORT", 5000))
     app.run(host=host, port=port, debug=True)
