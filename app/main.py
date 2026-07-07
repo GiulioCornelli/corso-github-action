@@ -51,6 +51,7 @@ def health():
 
 @app.route("/ping", methods=["GET"])
 def ping():
+    raise Exception
     return jsonify({"message": "pong"})
 
 
