@@ -1,5 +1,7 @@
+# Nome del workflow (appare nella sezione Actions di GitHub)
 name: Flask App Test
 
+# Evento che attiva il workflow: pull request verso main
 on:
     pull_request:
         branches:
@@ -7,33 +9,42 @@ on:
 
 jobs:
     test:
+        # Macchina virtuale Ubuntu su cui gira
         runs-on: ubuntu-latest
+
+        # Comandi 'run' partono da ./app/
         defaults:
             run:
                 working-directory: ./app/
 
+        # Test su più versioni di Python (qui solo 3.12)
         strategy:
             matrix:
                 python-version: ["3.12"]
 
+        # Variabili d'ambiente per il server Flask
         env:
             SERVER_HOST: 0.0.0.0
             SERVER_PORT: 9090
 
         steps:
+            # Scarica il codice del repo
             - uses: actions/checkout@v4
 
+            # Installa uv (package manager per Python)
             - name: Install uv
               uses: astral-sh/setup-uv@v5
 
+            # Imposta la versione di Python specificata nella matrix
             - name: Set up Python ${{ matrix.python-version }}
               uses: actions/setup-python@v5
               with:
                 python-version: ${{ matrix.python-version }}
 
+            # Crea il virtualenv e installa tutte le dipendenze da pyproject.toml
             - name: Install Dependencies
               run: uv sync
 
+            # Esegue i test con pytest tramite uv
             - name: Run Tests
-              run: uv run main_test.py 
-                    
+              run: uv run pytest main_test.py -v
