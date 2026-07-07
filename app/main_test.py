@@ -52,3 +52,9 @@ def test_create_task(client):
 def test_create_task_missing_title(client):
     resp = client.post("/tasks", json={})
     assert resp.status_code == 400
+
+
+def test_ping(client):
+    resp = client.get("/ping")
+    assert resp.status_code == 200
+    assert resp.get_json() == {"message": "pong"}

@@ -49,6 +49,11 @@ def health():
     return jsonify({"status": "ok"})
 
 
+@app.route("/ping", methods=["GET"])
+def ping():
+    return jsonify({"message": "pong"})
+
+
 if __name__ == "__main__":
     print("Starting Flask app...")
     host = os.getenv("SERVER_HOST", "127.0.0.1")
